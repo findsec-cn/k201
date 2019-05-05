@@ -1,0 +1,18 @@
+apiVersion: v1
+clusters:
+- cluster:
+    insecure-skip-tls-verify: true
+    server: https://apiserver.hipstershop.cn:6443
+  name: k8s-prod
+contexts:
+- context:
+    cluster: k8s-prod
+    user: k8s-prod
+  name: k8s-prod
+current-context: k8s-prod
+kind: Config
+preferences: {}
+users:
+- name: k8s-prod
+  user:
+    token: eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi10b2tlbi10ZDd3YiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJhZG1pbiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6Ijg3ZWEzOTlkLTYzNWItMTFlOS1hODJhLTAwMTYzZTMwYjhmNSIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlLXN5c3RlbTphZG1pbiJ9.kw3G3jKZy_3_DEziHRrZ9VKK5FWiUHrmalXq_zZg7ZslWG2aSxMLTKcIsy0BjUUuzWg4bPNQCR5LKGEth5LhJ_hQ8XydT6wQLHTiFbO9v5So5SaZDbgKX8w7pnaAqrUSpzP_-UNLir4HwUxZscUIIEibaQEfG7fBgHSuzZT3jI7wGhSKhf84ITp1sbFvQu5Vn5kmYanBm_av3jYC6yPK1-EKk3BoQBEYY-XSFfZNj_Zpb4_kNrZ1gg2fd8BYcjrJP3vTHHwF3e6iYj-MGx7TIZMtBXDvbDEghx3bok5tMSyl-_dD2HCEpHHAMDGZfd8HOTehtZLc-jj3kG8-a0ALWg

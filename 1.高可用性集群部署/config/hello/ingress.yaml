@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: hello-ingress
+  labels:
+    app: hello
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - host: hello.hipstershop.cn
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: hello
+              servicePort: 80
+
+

@@ -1,0 +1,21 @@
+serviceType: NodePort
+replicas: 3
+resources:
+  limits:
+    cpu: 2
+    memory: 4Gi
+  requests:
+    cpu: 4
+    memory: 4Gi
+dashboard:
+  enabled: true
+  domain: traefik.hipstershop.cn
+service:
+  nodePorts:
+    http: 30080
+    https: 30443
+rbac:
+  enabled: true
+metrics:
+  prometheus:
+    enabled: true

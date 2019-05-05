@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hello
+  labels:
+    app: hello
+data:
+  nginx-conf: |-
+    server {
+        listen 80;
+        server_name hello.hipstershop.cn;
+        location / {
+            include uwsgi_params;
+            uwsgi_pass unix:///tmp/uwsgi.sock;
+        }
+    }
