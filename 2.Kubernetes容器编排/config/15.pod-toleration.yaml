@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  namespace: default
+  labels:
+    app: example
+spec:
+  tolerations:
+  - key: "role"
+    operator: "Equal"
+    value: "job"
+    effect: "NoSchedule"
+  nodeSelector:
+    role: job
+  containers:
+  - name: nginx
+    image: nginx:latest
+    imagePullPolicy: IfNotPresent
+

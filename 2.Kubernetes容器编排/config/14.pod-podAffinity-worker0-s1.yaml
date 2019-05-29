@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-worker0-s1
+  namespace: default
+  labels:
+    app: example
+    security: S1
+spec:
+  nodeSelector:
+    node: worker0
+  containers:
+  - name: nginx
+    image: nginx:latest
+    imagePullPolicy: IfNotPresent
+

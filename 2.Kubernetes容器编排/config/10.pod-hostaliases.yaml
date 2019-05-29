@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  namespace: default
+  labels:
+    app: example
+spec:
+  hostAliases:
+  - ip: 1.1.1.1
+    hostnames:
+    - foo.hipstershop.cn
+  containers:
+  - name: nginx
+    image: nginx:latest
+    imagePullPolicy: IfNotPresent
+

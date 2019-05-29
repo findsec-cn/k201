@@ -1,0 +1,15 @@
+apiVersion: settings.k8s.io/v1alpha1
+kind: PodPreset
+metadata:
+  name: cache-pod-preset
+spec:
+  selector:
+    matchLabels:
+      role: web
+  volumeMounts:
+  - name: cache-volume
+    mountPath: /cache
+  volumes:
+  - name: cache-volume
+    emptyDir: {}
+

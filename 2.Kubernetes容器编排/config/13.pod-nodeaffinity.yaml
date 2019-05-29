@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  namespace: default
+  labels:
+    app: example
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: role
+            operator: In
+            values:
+            - web
+  containers:
+  - name: nginx
+    image: nginx:1.15.12
+    imagePullPolicy: IfNotPresent
+

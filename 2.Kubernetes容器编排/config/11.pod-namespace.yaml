@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+  namespace: default
+  labels:
+    app: example
+spec:
+  hostNetwork: true
+  hostIPC: true
+  hostPID: true
+  containers:
+  - name: busybox
+    image: busybox
+    imagePullPolicy: IfNotPresent
+    args:
+    - sleep
+    - "600"
+

@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: downwardapi
+  labels:
+    zone: cn-beijing-f
+    cluster: k8s
+spec:
+  containers:
+  - name: dowwardapi
+    image: busybox
+    command: ["sh", "-c"]
+    args:
+    - while true; do
+        if [[ -e /etc/podinfo/labels ]]; then
+            echo -en "\n\n"; cat /etc/podinfo/labels; fi;
+        sleep 5;
+      done;
+    volumeMounts:
+    - name: podinfo
+      mountPath: /etc/podinfo
+      readOnly: false
+  volumes:
+  - name: podinfo
+    projected:
+      sources:
+      - downwardAPI:
+          items:
+          - path: "labels"
+            fieldRef:
+              fieldPath: metadata.labels
+
