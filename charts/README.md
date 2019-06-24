@@ -22,7 +22,7 @@
 
 ## 部署elasticsearch
 
-在我的环境中，我使用ceph来存储elasticsearch的数据，ceph统一存储的storageClass为rook-ceph-block，如果你的环境与此不同，请根据你的环境在elasticsearch/values.yaml中变更storageClassName的值。
+在我的环境中，我使用ceph来存储elasticsearch的数据，ceph持久化存储的storageClass为rook-ceph-block，如果你的环境与此不同，请根据你的环境在elasticsearch/values.yaml中变更storageClassName的值。
 
     helm install --name elasticsearch elasticsearch --namespace logging
 
