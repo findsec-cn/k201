@@ -6,8 +6,7 @@
 
 ### 部署rook
 
-    helm repo add rook-release https://charts.rook.io/release
-    helm install --namespace rook-ceph rook-release/rook-ceph
+    helm install --namespace rook-ceph --name rook-ceph rook-ceph
 
 ### 通过rook部署集群
 
