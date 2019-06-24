@@ -59,7 +59,7 @@ Fluentd用于收集k8s产生的日志到elasticsearch中。
 
     helm upgrade fluentd fluentd-elasticsearch -f fluentd-elasticsearch/values-test.yaml --namespace logging
 
-## 部署Jaeger
+## 部署Jaeger链路追踪系统
 
    Jaeger部署依赖于elasticsearch，在部署前需要先确保elasticsearch服务是可以的，可以根据你自己的环境在jaeger-operator/values-test.yaml中修改elasticsearch的地址。
 
