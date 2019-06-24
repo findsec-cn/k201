@@ -1,0 +1,54 @@
+# Default values for jaeger-operator.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+image:
+  repository: jaegertracing/jaeger-operator
+  tag: 1.12.1
+  pullPolicy: IfNotPresent
+
+ingress:
+  enabled: true
+  # Used to create an Ingress record.
+  hosts:
+  - tracing.hipstershop.cn
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    # kubernetes.io/tls-acme: "true"
+  tls:
+    # Secrets must be manually created in the namespace.
+    # - secretName: tracing-tls
+    #   hosts:
+    #     - tracing.local
+jaeger:
+  query:
+    replicas: 2
+  collector:
+    replicas: 3
+  es:
+    serverUrls: http://elasticsearch-master.logging:9200
+    indexPrefix: tracing
+
+rbac:
+  # Specifies whether RBAC resources should be created
+  create: true
+
+serviceAccount:
+  # Specifies whether a ServiceAccount should be created
+  create: true
+  # The name of the ServiceAccount to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+resources:
+  limits:
+    cpu: 2
+    memory: 2048Mi
+  requests:
+    cpu: 1
+    memory: 2048Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

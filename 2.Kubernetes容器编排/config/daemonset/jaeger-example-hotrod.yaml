@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jaeger-test
+spec:
+  selector:
+    matchLabels:
+      app: jaeger-test
+  template:
+    metadata:
+      labels:
+        app: jaeger-test
+    spec:
+      containers:
+      - name: hotrod
+        image: jaegertracing/example-hotrod:latest
+        env:
+        - name: JAEGER_AGENT_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: JAEGER_AGENT_PORT
+          value: "6831"
+

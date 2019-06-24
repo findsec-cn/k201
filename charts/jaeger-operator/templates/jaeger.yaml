@@ -1,0 +1,21 @@
+apiVersion: jaegertracing.io/v1
+kind: Jaeger
+metadata:
+  name: jaeger
+spec:
+  strategy: production
+  ingress:
+    enabled: false
+  query:
+    replicas: {{ .Values.jaeger.query.replicas }}
+  collector:
+    replicas: {{ .Values.jaeger.collector.replicas }}
+  storage:
+    type: elasticsearch
+    dependencies:
+      enabled: false
+    options:
+      es:
+        server-urls: {{ .Values.jaeger.es.serverUrls }}
+        index-prefix: {{ .Values.jaeger.es.indexPrefix }}
+

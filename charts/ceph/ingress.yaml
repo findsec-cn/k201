@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ceph-dashboard
+  labels:
+    app: ceph-dashboard
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - host: ceph.hipstershop.cn
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: rook-ceph-mgr-dashboard
+              servicePort: 8443
+
+
