@@ -1,6 +1,6 @@
 # Kubernetes技术实践（进阶篇）
 
->> 视频课程地址：[戳我开始学习](https://www.bilibili.com/video/av49387629?from=search&seid=4418298671230182069)
+> **视频课程地址：**[戳我开始学习](https://www.bilibili.com/video/av49387629?from=search&seid=4418298671230182069)
 
 各位同学好，很快又和大家见面了，在前面的Kubernetes技术实践--基础篇中，我给大家讲了如何将微服务部署到Kubernetes测试集群中，让大家对Kubernetes的使用有了一个初步的认识。在基础篇中我没有给大家展开来讲Kubernetes的一些技术细节，在接下来的进阶篇中我会带着大家一起更加深入的了解Kubernetes的全貌以及更多技术细节。
 
