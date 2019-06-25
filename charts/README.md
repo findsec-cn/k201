@@ -1,5 +1,7 @@
 # Helm Charts使用说明
 
+> **视频课程地址：**[戳我开始学习](https://www.bilibili.com/video/av49387629?from=search&seid=4418298671230182069)
+
 > 注意，所有命令需要在当前目录执行
 
 ## 通过rook部署Ceph持久化存储
