@@ -1,0 +1,96 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  labels:
+    app.kubernetes.io/instance: fluentd
+  name: fluentd-elasticsearch
+  namespace: logging
+
+spec:
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: fluentd
+      app.kubernetes.io/name: fluentd-elasticsearch
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: fluentd
+        app.kubernetes.io/name: fluentd-elasticsearch
+    spec:
+      containers:
+      - env:
+        - name: FLUENTD_ARGS
+          value: --no-supervisor -q
+        - name: OUTPUT_HOST
+          value: elasticsearch-master
+        - name: OUTPUT_PORT
+          value: "9200"
+        - name: LOGSTASH_PREFIX
+          value: k8s-log
+        - name: OUTPUT_SCHEME
+          value: http
+        - name: OUTPUT_SSL_VERSION
+          value: TLSv1_2
+        - name: OUTPUT_BUFFER_CHUNK_LIMIT
+          value: 5M
+        - name: OUTPUT_BUFFER_QUEUE_LIMIT
+          value: "8"
+        - name: K8S_NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        image: gcr.azk8s.cn/fluentd-elasticsearch/fluentd:v2.5.2
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - |
+              LIVENESS_THRESHOLD_SECONDS=${LIVENESS_THRESHOLD_SECONDS:-300}; STUCK_THRESHOLD_SECONDS=${STUCK_THRESHOLD_SECONDS:-900}; if [ ! -e /var/log/fluentd-buffers ]; then
+                exit 1;
+              fi; touch -d "${STUCK_THRESHOLD_SECONDS} seconds ago" /tmp/marker-stuck; if [ -z "$(find /var/log/fluentd-buffers -type d -newer /tmp/marker-stuck -print -quit)" ]; then
+                rm -rf /var/log/fluentd-buffers;
+                exit 1;
+              fi; touch -d "${LIVENESS_THRESHOLD_SECONDS} seconds ago" /tmp/marker-liveness; if [ -z "$(find /var/log/fluentd-buffers -type d -newer /tmp/marker-liveness -print -quit)" ]; then
+                exit 1;
+              fi;
+          failureThreshold: 3
+          initialDelaySeconds: 600
+          periodSeconds: 60
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: fluentd-elasticsearch
+        volumeMounts:
+        - mountPath: /var/log
+          name: varlog
+        - mountPath: /data1/docker/containers
+          name: varlibdockercontainers
+          readOnly: true
+        - mountPath: /usr/lib64
+          name: libsystemddir
+          readOnly: true
+        - mountPath: /etc/fluent/config.d
+          name: config-volume
+      volumes:
+      - hostPath:
+          path: /var/log
+        name: varlog
+      - hostPath:
+          path: /data1/docker/containers
+        name: varlibdockercontainers
+      - hostPath:
+          path: /usr/lib64
+        name: libsystemddir
+      - configMap:
+          defaultMode: 420
+          name: fluentd-elasticsearch
+        name: config-volume
+
+      serviceAccountName: fluentd-elasticsearch
+

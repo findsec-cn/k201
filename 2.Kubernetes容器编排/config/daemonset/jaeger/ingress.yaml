@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: jaeger-ingress
+  namespace: tracing
+  labels:
+    app: jaeger
+    app.kubernetes.io/name: jaeger-operator
+  annotations:
+spec:
+  rules:
+    - host: tracing.hipstershop.cn
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: jaeger-query
+              servicePort: 16686
+

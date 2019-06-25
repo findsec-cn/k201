@@ -7,9 +7,9 @@ spec:
   ingress:
     enabled: false
   query:
-    replicas: {{ .Values.jaeger.query.replicas }}
+    replicas: 2
   collector:
-    replicas: {{ .Values.jaeger.collector.replicas }}
+    replicas: 3
   agent:
     strategy: DaemonSet
   storage:
@@ -18,6 +18,6 @@ spec:
       enabled: false
     options:
       es:
-        server-urls: {{ .Values.jaeger.es.serverUrls }}
-        index-prefix: {{ .Values.jaeger.es.indexPrefix }}
+        server-urls: http://elasticsearch-master.logging:9200
+        index-prefix: tracing
 

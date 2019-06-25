@@ -1,0 +1,15 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/instance: fluentd
+    app.kubernetes.io/name: fluentd-elasticsearch
+  name: fluentd-elasticsearch
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: fluentd-elasticsearch
+subjects:
+- kind: ServiceAccount
+  name: fluentd-elasticsearch
+  namespace: logging
