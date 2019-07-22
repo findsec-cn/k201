@@ -1,0 +1,23 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-volume
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 10Gi
+  rbd:
+    monitors:
+    - '172.16.100.10:6789'
+    - '172.16.100.11:6789'
+    - '172.16.100.12:6789'
+    pool: kube
+    image: foo
+    fsType: ext4
+    readOnly: true
+    user: admin
+    keyring: /etc/ceph/keyring
+    imageformat: "2"
+    imagefeatures: "layering"
+

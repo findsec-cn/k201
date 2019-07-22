@@ -1,0 +1,14 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+   name: standard
+provisioner: kubernetes.io/rbd
+parameters:
+    monitors: 172.16.100.10,172.16.100.11,172.16.100.12
+    adminId: admin
+    adminSecretName: ceph-secret-admin
+    adminSecretNamespace: kube-system
+    pool: kube
+    userId: kube
+    userSecretName: ceph-secret-user
+

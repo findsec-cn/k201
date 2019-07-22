@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: local-volume
+  labels:
+    name: local-volume
+spec:
+  containers:
+  - name: alpine
+    image: alpine
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do cat /data/index.html; sleep 10; done"]
+    volumeMounts:
+      - name: my-reference-to-the-volume
+        mountPath: /data
+  volumes:
+    - name: my-reference-to-the-volume
+      persistentVolumeClaim:
+        claimName: local-pvc
+
