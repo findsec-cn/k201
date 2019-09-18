@@ -1,0 +1,13 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: wildcard-hipstershop-cn
+spec:
+  secretName: wildcard-hipstershop-cn-tls
+  renewBefore: 240h
+  dnsNames:
+  - '*.hipstershop.cn'
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+

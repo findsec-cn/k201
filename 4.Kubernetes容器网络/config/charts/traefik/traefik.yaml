@@ -1,0 +1,26 @@
+serviceType: NodePort
+ssl:
+  enabled: true
+replicas: 1
+nodeSelector:
+  ingress: traefik
+resources:
+  limits:
+    cpu: 1
+    memory: 1Gi
+  requests:
+    cpu: 1
+    memory: 1Gi
+dashboard:
+  enabled: true
+  domain: traefik.hipstershop.cn
+service:
+  nodePorts:
+    http: 30080
+    https: 30443
+rbac:
+  enabled: true
+metrics:
+  prometheus:
+    enabled: true
+

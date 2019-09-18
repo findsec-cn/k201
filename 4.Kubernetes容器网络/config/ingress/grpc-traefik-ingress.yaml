@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: grpc-traefik-ingress
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    ingress.kubernetes.io/protocol: h2c
+spec:
+  rules:
+  - host: grpc.hipstershop.cn
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: grpc
+          servicePort: 80
+
