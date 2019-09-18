@@ -1,0 +1,10 @@
+controller:
+  hostNetwork: true
+  nodeSelector:
+    ingress: nginx
+  replicaCount: 1
+  metrics:
+    enabled: true
+tcp:
+  8080: "default/grpc:80"
+

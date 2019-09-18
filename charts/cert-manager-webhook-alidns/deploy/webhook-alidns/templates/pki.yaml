@@ -1,0 +1,76 @@
+---
+# Create a selfsigned Issuer, in order to create a root CA certificate for
+# signing webhook serving certificates
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Issuer
+metadata:
+  name: {{ include "webhook-alidns.selfSignedIssuer" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    app: {{ include "webhook-alidns.name" . }}
+    chart: {{ include "webhook-alidns.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selfSigned: {}
+
+---
+
+# Generate a CA Certificate used to sign certificates for the webhook
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: {{ include "webhook-alidns.rootCACertificate" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    app: {{ include "webhook-alidns.name" . }}
+    chart: {{ include "webhook-alidns.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  secretName: {{ include "webhook-alidns.rootCACertificate" . }}
+  duration: 43800h # 5y
+  issuerRef:
+    name: {{ include "webhook-alidns.selfSignedIssuer" . }}
+  commonName: "ca.webhook-alidns.cert-manager"
+  isCA: true
+
+---
+
+# Create an Issuer that uses the above generated CA certificate to issue certs
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Issuer
+metadata:
+  name: {{ include "webhook-alidns.rootCAIssuer" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    app: {{ include "webhook-alidns.name" . }}
+    chart: {{ include "webhook-alidns.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  ca:
+    secretName: {{ include "webhook-alidns.rootCACertificate" . }}
+
+---
+
+# Finally, generate a serving certificate for the webhook to use
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: {{ include "webhook-alidns.servingCertificate" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    app: {{ include "webhook-alidns.name" . }}
+    chart: {{ include "webhook-alidns.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  secretName: {{ include "webhook-alidns.servingCertificate" . }}
+  duration: 8760h # 1y
+  issuerRef:
+    name: {{ include "webhook-alidns.rootCAIssuer" . }}
+  dnsNames:
+  - {{ include "webhook-alidns.fullname" . }}
+  - {{ include "webhook-alidns.fullname" . }}.{{ .Release.Namespace }}
+  - {{ include "webhook-alidns.fullname" . }}.{{ .Release.Namespace }}.svc
